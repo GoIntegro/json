@@ -9,12 +9,6 @@ namespace GoIntegro\Json;
 
 // JSON.
 use JsonSchema\Validator;
-// Symfony 2.
-use Symfony\Component\HttpKernel\KernelInterface;
-// JSON-API.
-use GoIntegro\Hateoas\JsonApi\JsonApiSpec;
-// JSON Schema.
-use GoIntegro\Hateoas\Raml\JsonSchemaSpec;
 
 /**
  * La fachada del servicio de validación de JSON schemas.
@@ -44,21 +38,9 @@ class JsonCoder
     ];
 
     /**
-     * @var KernelInterface
-     */
-    private $kernel;
-    /**
      * @var array
      */
     private $lastSchemaErrors = [];
-
-    /**
-     * @param KernelInterface $kernel
-     */
-    public function __construct(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
-    }
 
     /**
      * Codifica el parámetro a JSON.
@@ -142,32 +124,6 @@ class JsonCoder
         $this->lastSchemaErrors = $validator->getErrors();
 
         return $validator->isValid();
-    }
-
-    /**
-     * @param string $json
-     * @return boolean
-     */
-    public function assertJsonApi($json)
-    {
-        $schema = $this->kernel->locateResource(
-            JsonApiSpec::JSON_API_SCHEMA_PATH
-        );
-
-        return $this->matchSchema($json, $schema);
-    }
-
-    /**
-     * @param string $json
-     * @return boolean
-     */
-    public function assertJsonSchema($json)
-    {
-        $schema = $this->kernel->locateResource(
-            JsonSchemaSpec::JSON_SCHEMA_SCHEMA_PATH
-        );
-
-        return $this->matchSchema($json, $schema);
     }
 
     /**

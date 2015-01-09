@@ -32,7 +32,6 @@
         "psr-0": { "GoIntegro\\Json": "" }
     },
     "target-dir": "GoIntegro/Json",
-    "prefer-stable": true,
     "extra": {
         "branch-alias": {
             "dev-master": "0.9.x-dev"
